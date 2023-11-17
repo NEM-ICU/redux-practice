@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+
 import { addPost } from "./postsSlice";
+import { selectAllUsers } from "../users/usersSlice";
 
 const Container = styled.div`
   max-width: 800px;
@@ -56,21 +58,33 @@ const Button = styled.button`
   }
 `;
 
+const Option = styled.option``;
+const Select = styled.select``;
+
 const AddPostForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [userId, setUserId] = useState("");
+
+  const users = useSelector(selectAllUsers);
 
   const dispatch = useDispatch();
 
   const onSavePostClicked = (e) => {
     e.preventDefault();
-    if (title && content) {
-      dispatch(addPost(title, content));
+    if (title && content && userId) {
+      dispatch(addPost(title, content, userId));
 
       setTitle("");
       setContent("");
     }
   };
+
+  const usersOptions = users.map((user) => (
+    <Option key={user.id} value={user.id}>
+      {user.name}
+    </Option>
+  ));
 
   return (
     <Container>
@@ -83,6 +97,17 @@ const AddPostForm = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+
+        <Label htmlFor="postAuthor">Author:</Label>
+        <Select
+          id="postAuthor"
+          value={userId}
+          onChange={(e) => setUserId(e.target.value)}
+        >
+          <Option value=""></Option>
+          {usersOptions}
+        </Select>
+
         <Label htmlFor="postContent">Content:</Label>
         <TextArea
           id="postContent"

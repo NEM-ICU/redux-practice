@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectAllPosts } from "./postsSlice";
 import styled from "styled-components";
+import PostAuthor from "./PostAuthor";
 
 const PostSection = styled.section`
   max-width: 800px;
@@ -36,6 +37,8 @@ const PostContent = styled.p`
   color: #555;
 `;
 
+const PostCredit = styled.div``;
+
 const PostsList = () => {
   const posts = useSelector(selectAllPosts);
 
@@ -43,6 +46,9 @@ const PostsList = () => {
     <Article key={post.id}>
       <PostTitle>{post.title}</PostTitle>
       <PostContent>{post.content.substring(0, 100)}</PostContent>
+      <PostCredit>
+        <PostAuthor userId={post.userId} />
+      </PostCredit>
     </Article>
   ));
 
