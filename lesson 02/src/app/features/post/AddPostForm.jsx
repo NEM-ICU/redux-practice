@@ -1,4 +1,3 @@
-import { nanoid } from "@reduxjs/toolkit";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
@@ -66,13 +65,7 @@ const AddPostForm = () => {
   const onSavePostClicked = (e) => {
     e.preventDefault();
     if (title && content) {
-      dispatch(
-        addPost({
-          id: nanoid(),
-          title,
-          content,
-        })
-      );
+      dispatch(addPost(title, content));
 
       setTitle("");
       setContent("");
