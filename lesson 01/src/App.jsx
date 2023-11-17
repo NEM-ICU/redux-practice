@@ -1,10 +1,7 @@
-
+import Counter from "./redux/features/counter/Counter";
 
 function App() {
-
-  return (
-    <>hello </>
-  )
+  return <Counter />;
 }
 
-export default App
+export default App;
