@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { selectAllPosts } from "./postsSlice";
 import styled from "styled-components";
 import PostAuthor from "./PostAuthor";
+import TimeAgo from "./TimeAgo";
+import ReactionButtons from "./ReactionButtons";
 
 const PostSection = styled.section`
   max-width: 800px;
@@ -42,13 +44,19 @@ const PostCredit = styled.div``;
 const PostsList = () => {
   const posts = useSelector(selectAllPosts);
 
-  const renderdPosts = posts.map((post) => (
+  const orderdPosts = posts
+    .slice()
+    .sort((a, b) => b.date.localeCompare(a.date));
+
+  const renderdPosts = orderdPosts.map((post) => (
     <Article key={post.id}>
       <PostTitle>{post.title}</PostTitle>
       <PostContent>{post.content.substring(0, 100)}</PostContent>
       <PostCredit>
         <PostAuthor userId={post.userId} />
+        <TimeAgo time={post.date} />
       </PostCredit>
+      <ReactionButtons post={post} />
     </Article>
   ));
 
